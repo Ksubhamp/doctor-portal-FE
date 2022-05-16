@@ -3,15 +3,7 @@
     "info": {
       "description": "This is a sample server doctor portal",
       "version": "1.0.0",
-      "title": "Swagger Petstore",
-      "termsOfService": "http://swagger.io/terms/",
-      "contact": {
-        "email": "apiteam@swagger.io"
-      },
-      "license": {
-        "name": "Apache 2.0",
-        "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
-      }
+      "title": "Doctor Portal"
     },
     "host": "localhost:4000",
     "basePath": "/v2",
@@ -25,12 +17,7 @@
         "description": ""
       },
       {
-        "name": "appointment",
-        "description": "Operations about user",
-        "externalDocs": {
-          "description": "Find out more about our store",
-          "url": "http://swagger.io"
-        }
+        "name": "appointment"
       }
     ],
     "schemes": [
