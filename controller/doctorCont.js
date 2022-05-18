@@ -17,7 +17,7 @@ const getdashboardData = async (req, res) => {
 
     try {
 
-        const doctor_id = req.doctor._id
+        const doctor_id = req.doctor._id             // Getting doctor data from middeware
         let te = Date.parse(req.body.date);
         if (isNaN(te)) {
             throw new Error('Required a valid date');
@@ -50,6 +50,8 @@ const getdashboardData = async (req, res) => {
     }
 
 }
+
+// update appointment status by appointment and status
 
 const updateStatus = async (req, res) => {
     try {
