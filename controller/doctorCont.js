@@ -22,10 +22,30 @@ const getdashboardData = async (req, res) => {
         if (isNaN(te)) {
             throw new Error('Required a valid date');
         }
+        const page = parseInt(req.query.page)
+        const limit = parseInt(req.query.limit)
+        // const limit =5;
+        const startIndex = (page - 1) * limit
+        const endIndex = page * limit
+    
+        const pagintn = {};   // pagination object that contain next and previous page
+    
+        if (endIndex < await Appointment.countDocuments({ doctor_id }).exec()) {
+            pagintn.next = {
+            page: page + 1,
+            limit: limit
+          }
+        }
+        if (startIndex > 0) {
+            pagintn.previous = {
+            page: page - 1,
+            limit: limit
+          }
+        }
         const appointment_date = req.body.date.split('-');
         const month = appointment_date[1];
         const year = appointment_date[0];
-        let l = await Appointment.find({ doctor_id }).sort({ appointment_date: -1 });
+        let l = await Appointment.find({ doctor_id }).sort({ appointment_date: -1 }).limit(limit).skip(startIndex);
         let groupData = await Appointment.find({
             doctor_id,
             $expr: {
@@ -41,7 +61,7 @@ const getdashboardData = async (req, res) => {
         });
         // let groupData = await Appointment.find({doctor_id });
 
-        res.status(200).send({ status: true, data: { doctor: req.doctor, l, groupData }, message: `Doctor dashboard get successfully.` })
+        res.status(200).send({ status: true, data: { doctor: req.doctor, l, groupData,pagintn }, message: `Doctor dashboard get successfully.` })
 
 
     } catch (error) {
