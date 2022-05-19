@@ -38,14 +38,14 @@ const signup = async (req, res) => {
     try {
         validateSignup(req.body);
         const { name, email, password, doctor } = req.body;
-        const check = await User.findOne({ email })
+        const check = await User.findOne({ email: email.toLowerCase() })
         if (check) {
             return res.status(401).send({ code: 401, message: 'Alreay exist' });
         }
         const salt = await bcrypt.genSalt(10);
         let hashpassword = await bcrypt.hash(password, salt);
         let o = {
-            name, email, password: hashpassword
+            name,email: email.toLowerCase(), password: hashpassword
         }
         let user = await User.create(o);
         doctor['user_id'] = user._id;
